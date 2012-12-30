@@ -3,9 +3,9 @@ require File.expand_path('../lib/impas-client/version', __FILE__)
 
 Gem::Specification.new do |gem|
   gem.authors       = ["hideack"]
-  gem.email         = ["hideaki@feeddown.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
+  gem.email         = ["hide.terai@gmail.com"]
+  gem.description   = "impas client"
+  gem.summary       = "impas client"
   gem.homepage      = ""
 
   gem.files         = `git ls-files`.split($\)
