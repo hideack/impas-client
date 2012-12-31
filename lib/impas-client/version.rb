@@ -1,5 +1,6 @@
 module Impas
-  module Client
-    VERSION = "0.0.1"
+  class Client
+    VERSION = "0.0.2"
+    API_URL = "http://impas-hideack.sqale.jp/"
   end
 end

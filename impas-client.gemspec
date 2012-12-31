@@ -6,7 +6,7 @@ Gem::Specification.new do |gem|
   gem.email         = ["hide.terai@gmail.com"]
   gem.description   = "impas client"
   gem.summary       = "impas client"
-  gem.homepage      = ""
+  gem.homepage      = "http://github.com/hideack/impas-client"
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
@@ -14,4 +14,6 @@ Gem::Specification.new do |gem|
   gem.name          = "impas-client"
   gem.require_paths = ["lib"]
   gem.version       = Impas::Client::VERSION
+
+  gem.add_dependency "faraday", "~>0.8.4"
 end

@@ -1,6 +1,6 @@
 # Impas::Client
 
-TODO: Write a gem description
+Impas::Client is a Ruby interface for Impas API.
 
 ## Installation
 
@@ -18,7 +18,23 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+require 'impas-client'
+
+client = Impas::Client.new({
+  api_url:"http://impas.****.jp/",
+  op_key:"*****"
+})
+
+client.add_group "sample_group1"  # 集計グループ追加
+client.groups                     # 登録中のグループ一覧取得
+
+client.add_url(                   # URLを集計対象へ追加
+  "051fc80bff3afd1db52bfc3dae8f6329",
+  "http://www.youtube.com/watch?v=2HQkugdXyHY"
+)
+
+```
 
 ## Contributing
 
