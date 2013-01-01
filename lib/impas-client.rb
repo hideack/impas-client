@@ -1,5 +1,6 @@
 require "impas-client/version"
 require 'faraday'
+require 'json'
 
 module Impas
   class Client
@@ -11,35 +12,65 @@ module Impas
 
       @@conn = Faraday.new(:url => @api_url) do |faraday|
         faraday.request  :url_encoded
-        faraday.response :logger
         faraday.adapter  Faraday.default_adapter
       end
+
     end
 
     def add_group(group_name)
       entry_point = "/api/group/#{@op_key}"
 
-      @@conn.post do |req|
+      res = @@conn.post do |req|
         req.url entry_point
         req.headers['Content-Type'] = 'application/json'
         req.body = "{\"name\":\"#{group_name}\"}"
       end
+
+      if res.status == 200
+        desc = JSON.parse(res.body)
+
+        if desc["result"] != "ok"
+          raise StandardError.new("Process error. message:#{desc['explain']}")
+        end
+      else
+        raise StandardError.new("HTTP status:#{res.status}")
+      end
+
+      true
     end
 
     def groups
       entry_point = "/api/group/#{@op_key}"
-      @@conn.get entry_point
+      res = @@conn.get entry_point
+
+      if res.status != 200
+        raise StandardError.new("HTTP status:#{res.status}")
+      end
+
+      desc = JSON.parse(res.body)
+      desc["description"]["groups"]
     end
 
     def add_url(grp_key, url)
       entry_point = "/api/registration/#{grp_key}"
 
-      @@conn.post do |req|
+      res = @@conn.post do |req|
         req.url entry_point
         req.headers['Content-Type'] = 'application/json'
         req.body = "{\"url\":\"#{url}\"}"
       end
-    end
 
+      if res.status == 200
+        desc = JSON.parse(res.body)
+
+        if desc["result"] != "ok"
+          raise StandardError.new("Process error. message:#{desc['explain']}")
+        end
+      else
+        raise StandardError.new("HTTP status:#{res.status}")
+      end
+
+      true
+    end
   end
 end
