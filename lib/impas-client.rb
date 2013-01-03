@@ -6,7 +6,7 @@ module Impas
   class Client
     attr_accessor :api_url, :op_key
 
-    def initialize(args)
+    def initialize(args ={})
       @api_url  = (args[:api_url].nil?) ? API_URL : args[:api_url]
       @op_key   = args[:op_key]
 
@@ -71,6 +71,18 @@ module Impas
       end
 
       true
+    end
+
+    def ranking(grp_key, type = "all", limit = 10)
+      entry_point = "/api/ranking/#{grp_key}/#{type}/#{limit}"
+      res = @@conn.get entry_point
+
+      if res.status != 200
+        raise StandardError.new("HTTP status:#{res.status}")
+      end
+
+      desc = JSON.parse(res.body)
+      desc["description"]["ranking"]
     end
   end
 end
