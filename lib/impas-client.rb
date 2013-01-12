@@ -39,6 +39,17 @@ module Impas
       true
     end
 
+    def delete_group(grp_key)
+      entry_point = "/api/group/#{@op_key}/#{grp_key}"
+      res = @@conn.delete entry_point
+
+      if res.status != 200
+        raise StandardError.new("HTTP status:#{res.status}")
+      end
+
+      true
+    end
+
     def groups
       entry_point = "/api/group/#{@op_key}"
       res = @@conn.get entry_point
