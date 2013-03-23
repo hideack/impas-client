@@ -62,13 +62,19 @@ module Impas
       desc["description"]["groups"]
     end
 
-    def add_url(grp_key, url)
+    def add_url(grp_key, url, user = nil)
       entry_point = "/api/registration/#{grp_key}"
 
       res = @@conn.post do |req|
         req.url entry_point
         req.headers['Content-Type'] = 'application/json'
-        req.body = "{\"url\":\"#{url}\"}"
+
+        if user.nil?
+          req.body = "{\"url\":\"#{url}\"}"
+        else
+          req.body = "{\"url\":\"#{url}\", \"user\":\"#{user}\"}"
+        end
+
       end
 
       if res.status == 200
