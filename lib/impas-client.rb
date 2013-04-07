@@ -101,5 +101,23 @@ module Impas
       desc = JSON.parse(res.body)
       desc["description"]["ranking"]
     end
+
+    def recommend(grp_key, visitor, limit=10)
+      entry_point = "/api/recommend/#{grp_key}/#{visitor}/#{limit}"
+      res = @@conn.get entry_point
+
+      if res.status == 200
+        desc = JSON.parse(res.body)
+
+        if desc["result"] != "ok"
+          raise StandardError.new("Process error. message:#{desc['explain']}")
+        end
+      else
+        raise StandardError.new("HTTP status:#{res.status}")
+      end
+
+      desc = JSON.parse(res.body)
+      desc["description"]["recommends"]
+    end
   end
 end
